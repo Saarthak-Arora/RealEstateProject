@@ -28,3 +28,15 @@ app.get('/',(req,res)=>{
 
 app.use("/api/user",userRouter);
 app.use("/api/auth",authRouter);
+
+// middleware
+
+app.use((err,req,res,next)=>{
+  const statuscode = err.statuscode || 500;
+  const message = err.message || 'internal server error';
+  return res.status(statuscode).json({
+    success: false,
+    statuscode,
+    message,
+  });
+});
